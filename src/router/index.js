@@ -7,6 +7,7 @@ const DefaultContainer = () => import('@/containers/DefaultContainer')
 // Views
 const Dashboard = () => import('@/views/Dashboard')
 const Customers = () => import('@/views/customers/Customers')
+const Customer = () => import('@/views/customers/Customer')
 
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
@@ -76,8 +77,14 @@ function configRoutes() {
         },
         {
           path: 'customers',
-          name: 'Customers',
-          component: Customers
+          meta: { label: 'Customers'},
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children: [
+            { path: '', name: 'List', component: Customers },
+            { path: 'new', name: 'New', component: Customer },
+          ]
         },
         {
           path: 'theme',

@@ -1,8 +1,6 @@
 <template>
    <div>
-    <b-button @click="orderChange">Toggle Busy State</b-button>
-    <div>{{ items }}</div>
-    <div>{{ order }}</div>
+    <b-button @click="orderChange">Order by {{ order }}</b-button>
     <b-table striped hover :items="orderedItens"></b-table>
   </div>
 </template>
@@ -12,7 +10,7 @@ export default {
     data: () => {
      return {
         items: [
-          { id: 1, name: 'Dickerson', phone: 'Macdonald' , email: "john@doe.com" },
+          { id: 1, name: 'Dickerson', phone: 'Macdonald' , email: "john@doe.com.br" },
           { id: 2, name: 'Larsen', phone: 'Shaw' , email: "john@doe.com" },
           { id: 3, name: 'Geneva', phone: 'Wilson' , email: "john@doe.com" },
           { id: 4, name: 'Jami', phone: 'Carney' , email: "john@doe.com" }
@@ -27,7 +25,7 @@ export default {
     },
     computed: {
         orderedItens () {
-           
+
           if (this.order == 'id') {
 
             return this.items

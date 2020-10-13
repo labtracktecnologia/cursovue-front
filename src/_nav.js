@@ -14,8 +14,18 @@ export default {
     },
     {
       name: 'Clientes',
-      url: '/theme/colors',
-      icon: 'icon-drop'
+      url: '/customers',
+      icon: 'icon-drop',
+      children: [
+        { 
+          name: 'Listar',
+          url: "/customers/"
+        },
+        { 
+          name: 'Novo',
+          url: "/customers/new"
+        },
+      ]
     },
     {
       name: 'Produtos',
