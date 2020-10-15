@@ -20,7 +20,6 @@
 <script>
 import nav from '@/_nav'
 import { Sidebar as AppSidebar, SidebarMinimizer, SidebarNav, Breadcrumb } from '@coreui/vue'
-import DefaultHeaderDropdownAccnt from './DefaultHeaderDropdownAccnt'
 import DefaultHeader from './DefaultHeader'
 import DefaultFooter from './DefaultFooter'
 
@@ -29,7 +28,6 @@ export default {
   components: {
     AppSidebar,
     Breadcrumb,
-    DefaultHeaderDropdownAccnt,
     SidebarNav,
     SidebarMinimizer,
     DefaultFooter,

@@ -5,7 +5,10 @@ import Router from 'vue-router'
 const DefaultContainer = () => import('@/containers/DefaultContainer')
 
 // Views
-const Dashboard = () => import('@/views/Dashboard')
+const Dashboard = () => import('@/views/Dashboard');
+
+const ClientesList = () => import('@/views/clientes/Index.vue');
+const ClientesForm = () => import('@/views/clientes/Form.vue');
 
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
@@ -72,6 +75,26 @@ function configRoutes() {
           path: 'dashboard',
           name: 'Dashboard',
           component: Dashboard
+        },
+        {
+          path: 'clientes',
+          name: 'Clientes',
+          redirect: '/clientes/list',
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: 'list',
+              name: 'Listagem',
+              component: ClientesList
+            },
+            {
+              path: 'new',
+              name: 'Novo Cliente',
+              component: ClientesForm
+            },
+          ]
         },
         {
           path: 'theme',

@@ -11,15 +11,6 @@
       <b-dropdown-item><i class="fa fa-bell-o" /> Updates
         <b-badge variant="info">{{ itemsCount }}</b-badge>
       </b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-envelope-o" /> Messages
-        <b-badge variant="success">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-tasks" /> Tasks
-        <b-badge variant="danger">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-comments" /> Comments
-        <b-badge variant="warning">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
       <b-dropdown-header
         tag="div"
         class="text-center">
