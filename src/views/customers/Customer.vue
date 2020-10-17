@@ -10,7 +10,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Email addresses:">
+      <b-form-group label="Email address:">
         <b-form-input
           v-model="form.email"
           type="email"
@@ -27,7 +27,8 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
+      <b-button type="submit" variant="primary">Salvar</b-button>
+      <b-button class="ml-2" @click="$router.go(-1)" variant="danger">Cancelar</b-button>
 
     </b-form>
   </div>
