@@ -1,15 +1,26 @@
 <template>
-  <b-card class="p-2 h-100" no-body>
-    <div class="text-right">
-      <button class="btn btn-success" @click="mudarOrdenacao">Mudar</button>
-      <label class="mx-4">{{ ordenacao }}</label>
-      <router-link class="ml-auto btn btn-warning" to="new">Novo</router-link>
+  <div class="wrapper">
+    <div class="animated fadeIn">
+      <b-row>
+        <b-col cols="12">
+          <b-card class="p-2 h-100" no-body>
+            <div class="text-right">
+              <button class="btn lt-button btn-success" @click="notify">
+                <i class="fa fa-edit icon"></i>
+                Mudar
+              </button>
+              <label class="mx-4">{{ ordenacao }}</label>
+              <router-link class="ml-auto btn btn-warning" to="new">Novo</router-link>
+            </div>
+            <div>
+              <b-form-select v-model="ordenacao" :options="options"></b-form-select>
+            </div>
+            <b-table striped hover :items="itemsOrdenados"></b-table>
+          </b-card>
+        </b-col>
+      </b-row>
     </div>
-    <div>
-      <b-form-select v-model="ordenacao" :options="options"></b-form-select>
-    </div>
-    <b-table class="table-dark" striped hover :items="itemsOrdenados"></b-table>
-  </b-card>
+  </div>
 </template>
 <script>
 export default {
@@ -39,6 +50,9 @@ export default {
     }
   },
   methods: {
+    notify () {
+      this.$noty.success('Sucesso na operação!');
+    },
     ordenar (item1, item2) {
       if (item1[this.ordenacao] < item2[this.ordenacao]) {
         return -1
@@ -58,3 +72,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.lt-button {
+  .icon {
+    margin-right: 1rem;
+  }
+}
+</style>

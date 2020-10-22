@@ -14,7 +14,7 @@ export default {
     },
     {
       name: 'Clientes',
-      url: '/theme/colors',
+      url: '/clientes',
       icon: 'icon-drop'
     },
     {
