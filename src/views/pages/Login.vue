@@ -6,12 +6,12 @@
           <b-card-group>
             <b-card no-body class="p-4">
               <b-card-body>
-                <b-form>
+                <b-form @submit.prevent="login">
                   <h1>Login</h1>
                   <p class="text-muted">Sign In to your account</p>
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input v-model="email" type="text" class="form-control" placeholder="Email" autocomplete="email" />
+                    <b-form-input v-model="username" type="text" class="form-control" placeholder="Email" autocomplete="email" />
                   </b-input-group>
                   <b-input-group class="mb-4">
                     <b-input-group-prepend><b-input-group-text><i class="icon-lock"></i></b-input-group-text></b-input-group-prepend>
@@ -19,10 +19,10 @@
                   </b-input-group>
                   <b-row>
                     <b-col cols="6">
-                      <b-button @click="login()" variant="primary" class="px-4">Login</b-button>
+                      <b-button type="submit" variant="primary" class="px-4">Entrar</b-button>
                     </b-col>
                     <b-col cols="6" class="text-right">
-                      <b-button variant="link" class="px-0">Forgot password?</b-button>
+                      <b-button variant="link" class="px-0">Esqueceu sua senha?</b-button>
                     </b-col>
                   </b-row>
                 </b-form>
@@ -36,18 +36,23 @@
 </template>
 
 <script>
+import { login } from '@/services/auth'
+
 export default {
   name: 'Login',
   data () {
     return {
-      email:'',
+      username:'',
       password: ''
     }
   },
   methods: {
     login () {
-      console.log(this.email, this.password)
-      this.$router.replace('/')
+      if (login(this.username, this.password)) {
+        this.$router.replace(this.$route.query.redirect || '/')
+      } else {
+        this.$noty.error('Usuário inexistente ou senha incorreta!')
+      }
     }
   }
 }

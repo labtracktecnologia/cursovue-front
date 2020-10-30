@@ -7,39 +7,29 @@
         alt="admin@bootstrapmaster.com" />
     </template>\
     <template slot="dropdown">
-      <b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
-      <b-dropdown-item><i class="fa fa-bell-o" /> Updates
-        <b-badge variant="info">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-header
-        tag="div"
-        class="text-center">
-        <strong>Settings</strong>
-      </b-dropdown-header>
-      <b-dropdown-item><i class="fa fa-user" /> Profile</b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-wrench" /> Settings</b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-usd" /> Payments
-        <b-badge variant="secondary">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-file" /> Projects
-        <b-badge variant="primary">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-divider />
-      <b-dropdown-item><i class="fa fa-shield" /> Lock Account</b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-lock" /> Logout</b-dropdown-item>
+      <b-dropdown-header tag="div" class="text-center"><strong>Usuário</strong></b-dropdown-header>
+      <b-dropdown-item><i class="fa fa-user" /> Perfil</b-dropdown-item>
+      <b-dropdown-item @click="logout"><i class="fa fa-lock" /> Sair</b-dropdown-item>
     </template>
   </AppHeaderDropdown>
 </template>
 
 <script>
 import { HeaderDropdown as AppHeaderDropdown } from '@coreui/vue'
+import { logout } from '@/services/auth'
+
 export default {
   name: 'DefaultHeaderDropdownAccnt',
   components: {
     AppHeaderDropdown
   },
-  data: () => {
-    return { itemsCount: 42 }
+  methods: {
+    logout () {
+      logout(this.retornarAoLogin)
+    },
+    retornarAoLogin () {
+      this.$router.replace('/login')
+    }
   }
 }
 </script>
