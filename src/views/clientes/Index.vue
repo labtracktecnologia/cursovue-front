@@ -1,82 +1,65 @@
 <template>
-  <div class="wrapper">
-    <div class="animated fadeIn">
-      <b-row>
-        <b-col cols="12">
-          <b-card class="p-2 h-100" no-body>
-            <div class="text-right">
-              <button class="btn lt-button btn-success" @click="notify">
-                <i class="fa fa-edit icon"></i>
-                Mudar
-              </button>
-              <label class="mx-4">{{ ordenacao }}</label>
-              <router-link class="ml-auto btn btn-warning" to="new">Novo</router-link>
-            </div>
-            <div>
-              <b-form-select v-model="ordenacao" :options="options"></b-form-select>
-            </div>
-            <b-table striped hover :items="itemsOrdenados"></b-table>
-          </b-card>
-        </b-col>
-      </b-row>
-    </div>
+  <div class="animated fadeIn">
+    <b-row>
+      <b-col>
+        <b-card>
+          <SearchBar v-model="filter">
+            <b-button to="new" variant="primary">
+              <i class="fa fa-plus"></i>
+              <span class="ml-1">Novo Cliente</span>
+            </b-button>
+          </SearchBar>
+          <b-table class="mt-2" striped small :items="records" :fields="tableFields">
+            <template v-slot:cell(email)="{ item }">
+              <a target="_blank" :href="`mailto:${item.email}`">{{ item.email }}</a>
+            </template>
+            <template v-slot:cell(action)="{ item }">
+              <b-button :to="{ name: 'Editar Cliente', params: { id: item.id }}" size="sm" class="text-dark p-0 mx-1" variant="link">
+                <i class="fa fa-edit"></i>
+              </b-button>
+              <b-button @click="remove(item)" size="sm" class="text-danger p-0 mx-1" variant="link">
+                <i class="fa fa-trash"></i>
+              </b-button>
+            </template>
+          </b-table>
+          <b-pagination v-model="page" :per-page="perPage" :total-rows="total" align="right"></b-pagination>
+        </b-card>
+      </b-col>
+    </b-row>
   </div>
 </template>
 <script>
+import data from './clientes.json'
+import SearchBar from '@/components/SearchBar.vue'
+
 export default {
+  components: {
+    SearchBar
+  },
   data () {
     return {
-      items: [
-        { id: 1, nome: 'João', telefone: '874289492', email: 'joao@gmail.com' },
-        { id: 2, nome: 'Antonio', telefone: '23453534564', email: 'antonio@gmail.com' },
-        { id: 3, nome: 'Maria', telefone: '57456754', email: 'maria@gmail.com' },
-        { id: 4, nome: 'Jessica', telefone: '68456325', email: 'jessica@gmail.com' },
-        { id: 5, nome: 'Joana', telefone: '678457634', email: 'joana@gmail.com' },
-        { id: 6, nome: 'Antonia', telefone: '456854745', email: 'antonia@gmail.com' },
-      ],
-      ordenacao: 'id',
+      records: data,
+      filter: '',
+      page: 1,
+      total: 0,
+      perPage: 20
     }
   },
   computed: {
-    options () {
+    tableFields () {
       return [
-        { value: 'nome', text: 'Nome' },
-        { value: 'id', text: 'Identificador' },
-        { value: 'telefone', text: 'Número de telefone' },
+        { key: 'id', isRowHeader: true, label: '#' },
+        { key: 'name', label: 'Nome' },
+        { key: 'telefone', label: 'Telefone' },
+        { key: 'email', label: 'E-mail' },
+        { key: 'action', label: ' ', tdClass: 'text-right' },
       ]
-    },
-    itemsOrdenados () {
-      return [...this.items].sort(this.ordenar)
     }
   },
   methods: {
-    notify () {
-      this.$noty.success('Sucesso na operação!');
-    },
-    ordenar (item1, item2) {
-      if (item1[this.ordenacao] < item2[this.ordenacao]) {
-        return -1
-      } else if (item1[this.ordenacao] > item2[this.ordenacao]) {
-        return 1
-      } else {
-        return 0
-      }
-    },
-    mudarOrdenacao () {
-      if (this.ordenacao === 'id') {
-        this.ordenacao = 'nome'
-      } else {
-        this.ordenacao = 'id'
-      }
+    remove ({ id, name }) {
+      this.$noty.success(`excluindo item ${name}(${id})`)
     }
   }
 }
 </script>
-
-<style lang="scss">
-.lt-button {
-  .icon {
-    margin-right: 1rem;
-  }
-}
-</style>

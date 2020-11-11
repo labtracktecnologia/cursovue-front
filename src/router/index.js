@@ -12,6 +12,8 @@ const Dashboard = () => import('@/views/Dashboard');
 const ClientesList = () => import('@/views/clientes/Index.vue');
 const ClientesForm = () => import('@/views/clientes/Form.vue');
 
+const Profile = () => import('@/views/pages/Profile.vue');
+
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
 
@@ -82,6 +84,11 @@ function configRoutes() {
           component: Dashboard
         },
         {
+          path: 'profile',
+          name: 'Perfil',
+          component: Profile
+        },
+        {
           path: 'clientes',
           name: 'Clientes',
           redirect: '/clientes/list',
@@ -97,6 +104,11 @@ function configRoutes() {
             {
               path: 'new',
               name: 'Novo Cliente',
+              component: ClientesForm
+            },
+            {
+              path: ':id',
+              name: 'Editar Cliente',
               component: ClientesForm
             },
           ]
