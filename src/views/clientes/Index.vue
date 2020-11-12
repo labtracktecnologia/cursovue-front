@@ -3,13 +3,13 @@
     <b-row>
       <b-col>
         <b-card>
-          <SearchBar v-model="filter">
-            <b-button to="new" variant="primary">
+          <SearchBar @refresh="load" v-model="filter">
+            <b-button class="mt-2 mt-sm-0" to="new" variant="primary">
               <i class="fa fa-plus"></i>
               <span class="ml-1">Novo Cliente</span>
             </b-button>
           </SearchBar>
-          <b-table class="mt-2" striped small :items="records" :fields="tableFields">
+          <b-table responsive class="mt-2" striped small :items="records" :fields="tableFields">
             <template v-slot:cell(email)="{ item }">
               <a target="_blank" :href="`mailto:${item.email}`">{{ item.email }}</a>
             </template>
@@ -31,11 +31,13 @@
 <script>
 import data from './clientes.json'
 import SearchBar from '@/components/SearchBar.vue'
+import ConfirmMixin from '@/mixins/confirm'
 
 export default {
   components: {
     SearchBar
   },
+  mixins: [ConfirmMixin],
   data () {
     return {
       records: data,
@@ -57,8 +59,14 @@ export default {
     }
   },
   methods: {
-    remove ({ id, name }) {
-      this.$noty.success(`excluindo item ${name}(${id})`)
+    async remove ({ id, name }) {
+      const value = await this.$confirm('Tem certeza que deseja excluir?', 'Esta ação não poderá ser desfeita!')
+      if (value) {
+        this.$noty.success(`Excluído o registro ${name} (${id})`)
+      }
+    },
+    load() {
+
     }
   }
 }
