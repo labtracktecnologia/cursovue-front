@@ -1,16 +1,20 @@
+import { getClient } from './http'
 
-const usuarios = [
-  { username: 'admin', password: 'admin', token: 'adjsfhahfahfdajjfa' },
-  { username: 'user', password: 'user', token: 'dswrtersdfggtewrs' }
-]
-
-export function login (username, password) {
-  const user = usuarios.find(item => item.username === username)
-  if (user && user.password === password) {
-    localStorage.setItem('token', user.token)
+export async function login (email, password) {
+  const client = getClient()
+  const { data: response } = await client.post('/login', {
+    email,
+    password
+  })
+  if (response.status === 'success') {
+    localStorage.setItem('token', response.data.token)
     return true
   }
-  return false
+  throw new Error({ response })
+}
+
+export function getToken() {
+  return localStorage.getItem('token')
 }
 
 export function logout (callback) {

@@ -8,7 +8,7 @@
               <b-card-body>
                 <b-form @submit.prevent="login">
                   <h1>Login</h1>
-                  <p class="text-muted">Sign In to your account</p>
+                  <p class="text-muted">Entre com seu e-mail e senha</p>
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
                     <b-form-input v-model="username" type="text" class="form-control" placeholder="Email" autocomplete="email" />
@@ -47,11 +47,12 @@ export default {
     }
   },
   methods: {
-    login () {
-      if (login(this.username, this.password)) {
+    async login () {
+      try {
+        login(this.username, this.password)
         this.$router.replace(this.$route.query.redirect || '/')
-      } else {
-        this.$noty.error('Usuário inexistente ou senha incorreta!')
+      } catch ({ response }) {
+        this.$noty.error(response.message)
       }
     }
   }
