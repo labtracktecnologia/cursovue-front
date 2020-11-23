@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import data from './clientes.json'
+import ClienteService from '@/services/clientes'
 import SearchBar from '@/components/SearchBar.vue'
 import ConfirmMixin from '@/mixins/confirm'
 
@@ -40,11 +40,20 @@ export default {
   mixins: [ConfirmMixin],
   data () {
     return {
-      records: data,
+      records: [],
       filter: '',
       page: 1,
       total: 0,
-      perPage: 20
+      perPage: 10
+    }
+  },
+  mounted() {
+    this.$service = new ClienteService()
+    this.load()
+  },
+  watch: {
+    page() {
+      this.load()
     }
   },
   computed: {
@@ -52,21 +61,30 @@ export default {
       return [
         { key: 'id', isRowHeader: true, label: '#' },
         { key: 'name', label: 'Nome' },
-        { key: 'telefone', label: 'Telefone' },
+        { key: 'phone', label: 'Telefone' },
         { key: 'email', label: 'E-mail' },
         { key: 'action', label: ' ', tdClass: 'text-right' },
       ]
     }
   },
   methods: {
-    async remove ({ id, name }) {
+    async remove ({ id }) {
       const value = await this.$confirm('Tem certeza que deseja excluir?', 'Esta ação não poderá ser desfeita!')
       if (value) {
-        this.$noty.success(`Excluído o registro ${name} (${id})`)
+        try {
+          await this.$service.remove(id)
+          this.load()
+          this.$noty.success('Cliente excluído com sucesso!')
+        } catch (err) {
+          console.error(err)
+          this.$noty.danger('Erro ao excluir o cliente!')
+        }
       }
     },
-    load() {
-
+    async load() {
+      const { data } = await this.$service.findAll({ limit: this.perPage, page: this.page, filter: this.filter })
+      this.records = data.data
+      this.total = data.total
     }
   }
 }

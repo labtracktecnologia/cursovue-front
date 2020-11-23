@@ -13,7 +13,7 @@
               </b-form-group>
               <b-form-group label="Telefone:">
                 <b-form-input
-                  v-model="form.telefone"
+                  v-model="form.phone"
                   placeholder="Digite o telefone"
                 ></b-form-input>
               </b-form-group>
@@ -21,6 +21,12 @@
                 <b-form-input
                   v-model="form.email"
                   placeholder="Digite o email"
+                ></b-form-input>
+              </b-form-group>
+              <b-form-group label="Endereço:">
+                <b-form-input
+                  v-model="form.address"
+                  placeholder="Digite o endereço"
                 ></b-form-input>
               </b-form-group>
             </b-card-body>
@@ -41,7 +47,7 @@
   </div>
 </template>
 <script>
-import data from './clientes.json'
+import ClienteService from '@/services/clientes'
 
 export default {
   data () {
@@ -49,14 +55,23 @@ export default {
       form: {}
     }
   },
-  mounted () {
+  async mounted () {
+    this.$service = new ClienteService()
     if (this.$route.params.id) {
-      this.form = data.find(item => item.id == this.$route.params.id)
+      const { data } = await this.$service.findById(this.$route.params.id)
+      this.form = data
     }
   },
   methods: {
-    save () {
-      console.log(this.form)
+    async save () {
+      try {
+        await this.$service.save(this.form)
+        this.$noty.success('Cliente gravado com sucesso!')
+        this.$router.replace('list')
+      } catch (err) {
+        this.$noty.danger('Problemas ao armazenar o cliente!')
+        console.log(err)
+      }
     }
   }
 }
