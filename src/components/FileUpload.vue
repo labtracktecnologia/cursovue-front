@@ -5,6 +5,8 @@
   </div>
 </template>
 <script>
+import { getClient } from '@/services/http'
+
 export default {
   props: {
     accept: {
@@ -30,16 +32,16 @@ export default {
     }
   },
   methods: {
-    onFileChange () {
+    async onFileChange () {
       this.isUploading = true
       try {
         const [ file ] = this.$refs.inputFileUpload.files
         if (file) {
           let formData = new FormData()
           formData.append(this.fieldName, file)
-          // chamada da API
-          // post(this.uploadUrl, formData, { headers: {'Content-Type':'multipart/form-data'}})
-          this.$emit('uploaded')
+          const header = {'Content-Type' : 'multipart/form-data'}
+          const { data } = await getClient(header).post(this.uploadUrl, formData)
+          this.$emit('uploaded', data)
         }
       } catch (error) {
         this.$noty.error('Problemas no upload do arquivo')

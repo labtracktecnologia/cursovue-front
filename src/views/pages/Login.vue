@@ -22,7 +22,7 @@
                       <b-button type="submit" variant="primary" class="px-4">Entrar</b-button>
                     </b-col>
                     <b-col cols="6" class="text-right">
-                      <b-button variant="link" class="px-0">Esqueceu sua senha?</b-button>
+                      <b-button variant="link" to="/register" class="px-0">Deseja registrar-se?</b-button>
                     </b-col>
                   </b-row>
                 </b-form>
@@ -49,10 +49,11 @@ export default {
   methods: {
     async login () {
       try {
-        login(this.username, this.password)
+        await login(this.username, this.password)
         this.$router.replace(this.$route.query.redirect || '/')
       } catch ({ response }) {
-        this.$noty.error(response.message)
+        const { data } = response
+        this.$noty.error(data.message)
       }
     }
   }

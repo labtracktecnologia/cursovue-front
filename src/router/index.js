@@ -345,6 +345,11 @@ function configRoutes() {
       component: Login
     },
     {
+      path: '/register',
+      name: 'Register',
+      component: Register
+    },
+    {
       path: '/pages',
       redirect: '/pages/404',
       name: 'Pages',
@@ -361,11 +366,6 @@ function configRoutes() {
           path: '500',
           name: 'Page500',
           component: Page500
-        },
-        {
-          path: 'register',
-          name: 'Register',
-          component: Register
         }
       ]
     }
