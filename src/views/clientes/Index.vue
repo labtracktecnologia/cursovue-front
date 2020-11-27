@@ -22,7 +22,14 @@
               </b-button>
             </template>
           </b-table>
-          <b-pagination v-model="page" :per-page="perPage" :total-rows="total" align="right"></b-pagination>
+          <div class="row">
+            <div class="col">
+              <h4>Página {{page}} de {{totalPage}}</h4>
+            </div>
+            <div class="col">
+              <b-pagination v-model="page" :per-page="perPage" :total-rows="total" align="right"></b-pagination>
+            </div>
+          </div>
         </b-card>
       </b-col>
     </b-row>
@@ -44,6 +51,7 @@ export default {
       filter: '',
       page: 1,
       total: 0,
+      totalPage: 0,
       perPage: 10
     }
   },
@@ -85,6 +93,7 @@ export default {
       const { data } = await this.$service.findAll({ limit: this.perPage, page: this.page, filter: this.filter })
       this.records = data.data
       this.total = data.total
+      this.totalPage = data.lastPage
     }
   }
 }
