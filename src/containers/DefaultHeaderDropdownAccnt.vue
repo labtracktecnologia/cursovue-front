@@ -1,10 +1,11 @@
 <template>
-  <AppHeaderDropdown right no-caret>
+  <AppHeaderDropdown class="mr-2" right no-caret>
     <template slot="header">
       <img
         :src="profileImage"
         class="img-avatar"
         alt="admin@bootstrapmaster.com" />
+        {{profile.name}}
     </template>\
     <template slot="dropdown">
       <b-dropdown-header tag="div" class="text-center"><strong>Usuário</strong></b-dropdown-header>
@@ -30,11 +31,14 @@ export default {
   },
   async mounted () {
     this.profile = await getProfile()
+    this.$root.$on('updateProfile', (profile) => {
+      this.profile = profile
+    })
   },
   computed: {
-    profileImage() {
-      return this.profile.url ? this.profile.url : "img/profile.png";
-    },
+    profileImage () {
+      return (this.profile && this.profile.url) || 'img/profile.png'
+    }
   },
   methods: {
     logout () {

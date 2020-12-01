@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     async saveProfile () {
-      await saveProfile(this.profile)
+      this.profile = await saveProfile(this.profile)
       this.$noty.success('Perfil atualizado com sucesso!')
     },
     async updatePassword () {
@@ -114,10 +114,15 @@ export default {
       this.profile = newProfile.data
     }
   },
+  watch: {
+    profile () {
+      this.$root.$emit('updateProfile', this.profile)
+    }
+  },
   computed: {
-    profileImage() {
-      return this.profile.url ? this.profile.url : "img/profile.png";
-    },
+    profileImage () {
+      return (this.profile && this.profile.url) || 'img/profile.png'
+    }
   },
 };
 </script>

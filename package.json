@@ -33,7 +33,8 @@
     "vue-chartjs": "^3.4.2",
     "vue-perfect-scrollbar": "^0.1.0",
     "vue-router": "^3.2.0",
-    "vuejs-noty": "^0.1.3"
+    "vuejs-noty": "^0.1.3",
+    "vuex": "^3.6.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

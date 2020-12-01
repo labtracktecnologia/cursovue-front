@@ -7,6 +7,8 @@ import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format'
 import VueFilterNumericFormat from '@vuejs-community/vue-filter-numeric-format'
 import VueNoty from 'vuejs-noty'
 
+import store from './store'
+
 Vue.use(BootstrapVue)
 Vue.use(VueFilterDateFormat, {
   dayOfWeekNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
@@ -36,6 +38,7 @@ Vue.use(VueNoty, {
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: {
     App
