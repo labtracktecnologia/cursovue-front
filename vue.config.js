@@ -1,5 +1,7 @@
 module.exports = {
   lintOnSave: true,
   runtimeCompiler: true,
-  publicPath: '/'
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/cursovue-front'
+    : '/'
 }
